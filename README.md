@@ -12,3 +12,5 @@ Example data can be downloaded from:
 https://doi.org/10.5281/zenodo.XXX
 
 ![Alt text](figure/overview.png?raw=true "MWF-QALAS")
+
+![Alt text](figure/pediatric.png?raw=true "pediatric")
