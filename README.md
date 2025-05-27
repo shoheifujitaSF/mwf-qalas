@@ -5,7 +5,7 @@ A related abstract is published at [2025 ISMRM & ISMRT Annual Meeting & Exhibiti
 
 A vendor-agnostic sequence for joint and rapid acquisition of T1, T2, and myelin water fraction maps was proposed. Along with the harmonized calibration scan, this package could be a valuable tool for multi-site/multi-vendor neuroimaging studies in adult and pediatric populations.
 
-This code requires [Pulseq](https://github.com/pulseq). [TOPPE](https://toppemri.github.io/) is used for running on GE scanners.
+This repository includes the sequence code, reconstruction code, fitting code, and example data. This package requires [Pulseq](https://github.com/pulseq). [TOPPE](https://toppemri.github.io/) is used for running on GE scanners.
 
 Example data can be downloaded from:
 
