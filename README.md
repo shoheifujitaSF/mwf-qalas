@@ -21,4 +21,5 @@ This software is released under the [BSD 3-Clause Clear License](LICENSE.txt). I
 If you are interested in obtaining a license for commercial use or for purposes beyond academic research, please contact:
 
 Shohei Fujita
+
 Email: sfujita AT mgh.harvard.edu
