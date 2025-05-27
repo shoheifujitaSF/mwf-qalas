@@ -1,7 +1,7 @@
-# Vendor-Agnostic Joint Relaxometry and Myelin Water Fraction Mapping with B1 and Motion Correction
+# Vendor-Agnostic Joint Relaxometry and Myelin Water Fraction Mapping with B<sub>1</sub> and Motion Correction
 
-This is the official code for **"Vendor-Agnostic Joint Relaxometry and Myelin Water Fraction Mapping with B1 and Motion Correction"**.
-A related abstract is published at [2025 ISMRM & ISMRT Annual Meeting & Exhibition](https://submissions.mirasmart.com/ISMRM2025/ViewSubmissionTeaser.aspx).
+This is the official code for **"Vendor-Agnostic Joint Relaxometry and Myelin Water Fraction Mapping with B<sub>1</sub>  and Motion Correction"**.
+A related abstract is published at [2025 ISMRM & ISMRT Annual Meeting & Exhibition](https://www.ismrm.org/25m/).
 
 A vendor-agnostic sequence for joint and rapid acquisition of T1, T2, and myelin water fraction maps was proposed. Along with the harmonized calibration scan, this package could be a valuable tool for multi-site/multi-vendor neuroimaging studies in adult and pediatric populations.
 
