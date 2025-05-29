@@ -7,9 +7,7 @@ A vendor-agnostic sequence for joint and rapid acquisition of T1, T2, and myelin
 
 This repository includes the sequence code, reconstruction code, fitting code, and example data. This package requires [Pulseq](https://github.com/pulseq). [TOPPE](https://toppemri.github.io/) is used for running on GE scanners.
 
-Example data can be downloaded from:
-
-https://doi.org/10.5281/zenodo.XXX
+Example data can be downloaded from [here](https://doi.org/10.5281/zenodo.15546728).
 
 ![Alt text](figure/overview.png?raw=true "MWF-QALAS")
 
