@@ -14,9 +14,7 @@ Example data can be downloaded from [here](https://doi.org/10.5281/zenodo.155467
 ![Alt text](figure/pediatric.png?raw=true "pediatric")
 
 ## License and Usage Restrictions
-This software is released under the [BSD 3-Clause Clear License](LICENSE.txt). In addition, use of this code is restricted to non-commercial, research purposes only.
-
-If you are interested in obtaining a license for commercial use or for purposes beyond academic research, please contact:
+This software is released under the [BSD 3-Clause Clear License](LICENSE.txt). In addition, use of this code is restricted to non-commercial, research purposes only. If you are interested in obtaining a license for commercial use or for purposes beyond academic research, please contact:
 
 Shohei Fujita
 
