@@ -1,0 +1,100 @@
+% Simulating inversion pulse for a range if T1 and T2 values, so that I can
+% generate a 'dictionary' mapping (t1,t2) -> ie.  Will be used as a lookup
+% table when simulating 3D-QALAS signal evolution
+
+% clear all
+
+addpath simulation_functions/
+
+inversion_pulse_info = readtable('data/mp2rage_invpulse.txt');
+
+save_flag = 1;
+
+%~~~~~~~~~~~~~~~~~~
+%Setting Parameters
+%~~~~~~~~~~~~~~~~~~
+sc_pulse = 1500/180; %how much we want to scale pulse by, relative to 180 deg
+
+%-setting T1 and T2 ranges (convert to R1 and R2), that we want to estimate
+%inversion efficnecy for
+% T1 = [1:10:1000, 2020:20:5000]     / 1000;
+% T2 = [1:1:80, 82:2:100, 104:4:600] / 1000;
+
+% ori qalas blochsim
+T1 = [5:10:3000, 3100:50:5000]     / 1000;
+T2 = [1:2:350, 370:20:1000, 1100:100:3000]/ 1000;
+
+% toolbox v3
+t1_entries = [5:5:3000, 3100:100:5000];
+t2_entries = [1:1:700, 710:20:1000, 1100:100:2500];
+
+gamma = 42.577478518e6; %[Hz/T]
+
+%-simulation parameters
+dt = 10e-6;
+pulse_time = length(inversion_pulse_info.Var1)*dt; %[s]
+
+%-sample parameters
+fovz  = 1 / 1000;      % [m]
+rho   = 1;             % [a.u.]
+b1rng = [1,1];         % [a.u.]
+b0rng = [0,0];         % [Hz]
+dr    = 1e-3;          %[m]
+
+%-defining simulation grids
+r   = (-fovz/2:dr:fovz/2-dr);
+nr  = length(r);
+b1  = linspace(b1rng(1),b1rng(2),nr);
+b0  = linspace(b0rng(1),b0rng(2),nr);
+
+%-setting flip angles (and including scaling for adiabatic)
+flip = 180 * sc_pulse;
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%preparing inversion event block and t1/t2 dictionary axis
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%-inversion event block
+inversion_raw = inversion_pulse_info.Var1 .* exp(1i * inversion_pulse_info.Var2);
+event_blocks  = preparing_inversion(dt,inversion_raw,pulse_time,flip);
+
+%-t1/t2 dictionary axis
+t1axis = repelem(T1,length(T2));
+t2axis = repmat(T2,[1,length(T1)]);
+
+t1t2axis = [t1axis;t2axis];
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%computing ie for each t1/t2
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ies = zeros(size(t1t2axis,2),1);
+
+f = waitbar(0,'1','Name','generating ie table',...
+    'CreateCancelBtn','setappdata(gcbf,''canceling'',1)');
+
+for ii = 1:size(t1t2axis,2)
+    waitbar(ii/size(t1t2axis,2),f)
+
+    R1 = 1/t1t2axis(1,ii);
+    R2 = 1/t1t2axis(2,ii);
+
+    magnetization = repmat([0,0,1,1].',[1,nr]);
+    magnetization = simulate_event_blocks(magnetization, event_blocks,rho,R1,R2,b0,b1,r,gamma);
+
+    ies(ii) = -1 * magnetization(3);
+end
+delete(f)
+
+%% playing around with creating the lookup table
+ies_mtx = reshape(ies,length(T2),length(T1));
+%-first dimension represents change in T2, second dimension represents
+%chane in T1.
+lookup = @(t1,t2) interp2(T1,T2',ies_mtx,t1,t2);
+
+%% saving ielook up information to transfer to gpu
+ielookup.ies_mtx = ies_mtx;
+ielookup.T1      = T1;
+ielookup.T2      = T2';
+
+if(save_flag)
+    save('data/ielookup_4qalas_dict3.mat','ielookup')
+end
